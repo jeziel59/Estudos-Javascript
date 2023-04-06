@@ -1,0 +1,55 @@
+export default function initTooltip() {
+
+}
+
+const tooltips = document.querySelectorAll('[data-tooltip'); // 1- Selecionamos o item que irá receber a tooltip
+
+tooltips.forEach((item) => { // 2- caso tenha varios itens com tooltip, pada cada  um vamos adicionar um evenet listener
+  item.addEventListener('mouseover', onMouseOver ) // 3- adicionando o event listener de mouse over, ativando a função onMouseOver
+})
+
+function onMouseOver(event) {// 4- Função onMouseOver
+  const tooltipBox = criarToolTipBox(this);  // 5- const tooltioBox recebe uma função que cria o elemento HTML
+  tooltipBox.style.top = event.pageY + 'px'; // 7- CSS da tooltip referente a posição recebe onde o mouse entrou no elemento
+  tooltipBox.style.left = event.pageX + 'px';// 7- CSS da tooltip referente a posição recebe onde o mouse entrou no elemento
+
+  // aqui temos dois objetos no callback, poderiam ser funções dentro dessa mesma função
+
+  onMouseMove.tooltipBox = tooltipBox // 8- const que sera criada onMouseMove recebe tooltipbox como propriedade
+    this.addEventListener('mousemove', onMouseMove) // 9- ao evento mousemove acionamos o objeto onMouseMove
+
+  onMouseLeave.tooltipBox = tooltipBox //13- objeto onmouseleave rebe o elemento
+  onMouseLeave.element = this //14 element de onMouseLeave recebe elemento
+  this.addEventListener('mouseleave', onMouseLeave) // 15 adiciona o onMouseleave 
+}
+
+const onMouseMove = { // 10- criação de objeto com função
+  handleEvent(event) { //11- necessariamente deve ter o handle event para funcionar
+    this.tooltipBox.style.top = event.pageY + 20 + 'px'; //12- a posição exata do move é enviada com +20 px para se diatanciar do ponteiro
+    this.tooltipBox.style.left = event.pageX + 20 + 'px';//12- a posição exata do move é enviada com +20 px para se diatanciar do ponteiro
+  }
+}
+
+
+const onMouseLeave = {
+  handleEvent() {//16 como é um objeto devese declarar handle event
+    this.tooltipBox.remove() //remove a tooltip na saida do mouse
+    this.element.removeEventListener('mouseleave', onMouseLeave)// remove o evento
+    this.element.removeEventListener('mousemove', onMouseMove)//remove o evento
+  }
+}
+
+
+
+
+function criarToolTipBox(element) { // 6- Criação do elemento HTML
+  const tooltipBox = document.createElement('div') // a const recebe um create elemento com a tag selecionada
+  const text = element.getAttribute('aria-label') // const recebe o valor da string em aria-label
+  tooltipBox.classList.add('tooltip') // adiciona a classe tooltip
+  tooltipBox.innerText = text // o elemento div criado recebe o innertext do aria-label
+  console.log(tooltipBox) // elemento div ja criado, com classe e texto
+  // adiciona a div ao final do body
+  document.body.appendChild(tooltipBox) 
+  return tooltipBox
+  // se deve agora criar o CSS referente a esta tooltip
+}
