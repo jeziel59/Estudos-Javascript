@@ -1,0 +1,52 @@
+[data-menu="button"] { 
+  display: none; /* não será exibito o botão em telas pequenas */
+} 
+@media (max-width:700px) {
+  .js [data-menu="button"] { /* personalização do menu */ /* só ocorre caso tenha js. */ 
+    display: flex;
+    background-color: #222;
+    border: none;
+    padding: .5rem 1rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-family: monospace;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    margin: 10px;
+    align-items: center;
+    position: relative;
+    z-index: 300;
+  }
+  .js [data-menu="button"]::before { /* desenho hamburguer menu */
+    content: '';
+    margin-right: 4px;
+    display: inline-block;
+    height: 2px;
+    width: 12px;
+    background-color: white;
+    box-shadow: 0 4px white, 0 -4px#fff;
+    transition: transform .3s;
+  }
+  .js [data-menu="button"].active::before { /* ao ser ativo, o botão gera uma animação */
+    transform: rotate(90deg);
+  }
+  .js [data-menu="lista"] { /* personalização do novo formato da lista de menu */
+    display: none;
+    position: absolute;
+    background-color: #fb5;
+    width: 120px;
+    z-index: 200;
+    top: 0;
+    padding: 60px 0 20px 0;
+    box-shadow: 2px 2px 2px 0 rgba(0,0,0,.2);
+  }
+  .js [data-menu="lista"].active { /* animação a ser executada */
+    display: block;
+    animation: show-right .5s forwards;
+  }
+    .js .dropDownMenu { /* posição do drop menu dentro do menu mobile */
+    position: static;
+    border: none;
+  }
+}
